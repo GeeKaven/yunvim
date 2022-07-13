@@ -18,11 +18,7 @@ return packer.startup(function()
   use({
     'folke/tokyonight.nvim',
     as = 'tokyonight',
-    config = function()
-      vim.g.tokyonight_style = 'night'
-      vim.g.tokyonight_sidebars = { 'qf' }
-      vim.cmd('colorscheme tokyonight')
-    end,
+    config = require("plugins.others").tokyonight,
   })
 
   use({
@@ -36,7 +32,14 @@ return packer.startup(function()
       { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
       { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
       -- { "hrsh7th/cmp-nvim-lsp", after = "nvim-lspconfig" },
-      { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" }
+      { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" },
+      {
+        "windwp/nvim-autopairs",
+        after = "nvim-cmp",
+        config = function()
+          require("plugins.autopairs")
+        end
+      }
     }
   })
 
@@ -70,18 +73,20 @@ return packer.startup(function()
       require("plugins.treesitter")
     end,
     requires = {
-      { "windwp/nvim-ts-autotag", after = "nvim-treesitter"},
-      { "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter"},
-      { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter"},
-      { "p00f/nvim-ts-rainbow", after = "nvim-treesitter"},
+      { "windwp/nvim-ts-autotag", after = "nvim-treesitter" },
+      { "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" },
+      { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" },
+      { "p00f/nvim-ts-rainbow", after = "nvim-treesitter" },
       {
         "andymass/vim-matchup",
         after = "nvim-treesitter",
-        config = function()
-          vim.cmd([[let g:matchup_matchparen_offscreen = {'method': 'popup'}]])
-        end
+        config = require("plugins.others").matchup
       },
     }
+  })
+  use({
+    "terrortylor/nvim-comment",
+    config = require("plugins.others").nvim_comment
   })
 
   if yu_packer.first then
