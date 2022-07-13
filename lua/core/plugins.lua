@@ -99,6 +99,16 @@ return packer.startup(function()
     requires = { "nvim-lua/plenary.nvim" }
   })
 
+  use({
+    "kyazdani42/nvim-tree.lua",
+    requires = {
+      'kyazdani42/nvim-web-devicons',
+    },
+    config = function ()
+      require("plugins.nvim-tree")
+    end
+  })
+
   if yu_packer.first then
     packer.sync()
   end

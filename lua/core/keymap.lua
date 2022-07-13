@@ -30,6 +30,9 @@ keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 -- save file
 keymap("n", "<C-s>", ":w<CR>", opts)
 
+-- Nvimtree
+keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
+
 -- Telescope
 keymap("n", "<Leader>ff", "<cmd> Telescope find_files <CR>", opts)
 keymap("n", "<Leader>fw", "<cmd> Telescope live_grep <CR>", opts)
