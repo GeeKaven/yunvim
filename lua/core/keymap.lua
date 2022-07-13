@@ -30,6 +30,17 @@ keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 -- save file
 keymap("n", "<C-s>", ":w<CR>", opts)
 
+-- Telescope
+keymap("n", "<Leader>ff", "<cmd> Telescope find_files <CR>", opts)
+keymap("n", "<Leader>fw", "<cmd> Telescope live_grep <CR>", opts)
+keymap("n", "<Leader>fb", "<cmd> Telescope buffers <CR>", opts)
+keymap("n", "<Leader>fh", "<cmd> Telescope help_tags <CR>", opts)
+keymap("n", "<Leader>fo", "<cmd> Telescope oldfiles <CR>", opts)
+keymap("n", "<Leader>fg", "<cmd> Telescope git_files <CR>", opts)
+keymap("n", "<Leader>gc", "<cmd> Telescope git_commits <CR>", opts)
+keymap("n", "<Leader>gs", "<cmd> Telescope git_status <CR>", opts)
+
+
 -- Insert --
 -- Press jk fast to exit insert mode 
 keymap("i", "<C-s>", "<ESC>:w<CR>", opts)

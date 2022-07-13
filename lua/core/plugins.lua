@@ -2,9 +2,17 @@ local yu_packer = require("core.packer")
 local packer = yu_packer.packer
 local use = packer.use
 
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+  augroup end
+]])
+
 return packer.startup(function ()
   use({
     'wbthomason/packer.nvim',
+    'nvim-lua/plenary.nvim',
   })
 
   use({
@@ -27,7 +35,7 @@ return packer.startup(function ()
       { "hrsh7th/cmp-path", after = "nvim-cmp" },
       { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
       { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
-      -- { "hrsh7thcmp-nvim-lsp", after = "nvim-lspconfig" },
+      { "hrsh7th/cmp-nvim-lsp", after = "nvim-lspconfig" },
       { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" }
     }
   })
@@ -39,6 +47,19 @@ return packer.startup(function ()
     end,
     after = "nvim-cmp",
     requires = "rafamadriz/friendly-snippets"
+  })
+
+  use({
+    "nvim-telescope/telescope.nvim",
+    config = function ()
+      require("plugins.telescope")
+    end,
+    requires = {
+      "nvim-lua/popup.nvim",
+      "nvim-lua/plenary.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+    },
+    event = "BufWinEnter"
   })
 
   if yu_packer.first then
