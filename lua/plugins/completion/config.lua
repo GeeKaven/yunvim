@@ -3,9 +3,9 @@ local config = {}
 config.cmp = function()
   local cmp = require('cmp')
 
-  local check_backspace = function()
-    local col = vim.fn.col "." - 1
-    return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+  local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
   end
 
   local kind_icons = {
@@ -39,7 +39,7 @@ config.cmp = function()
   cmp.setup({
     snippet = {
       expand = function(args)
-        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
       end,
     },
     sources = {
@@ -62,12 +62,10 @@ config.cmp = function()
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
-        elseif luasnip.expandable() then
-          luasnip.expand()
-        elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        elseif check_backspace() then
-          fallback()
+        elseif require("luasnip").expand_or_jumpable() then
+          require("luasnip").expand_or_jump()
+        elseif has_words_before() then
+          cmp.complete()
         else
           fallback()
         end
@@ -75,8 +73,8 @@ config.cmp = function()
       ["<S-Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          luasnip.jump(-1)
+        elseif require("luasnip").jumpable(-1) then
+          require("luasnip").jump(-1)
         else
           fallback()
         end
@@ -119,9 +117,6 @@ config.lua_snip = function()
   })
 
   require("luasnip.loaders.from_vscode").lazy_load()
-  require('luasnip.loaders.from_vscode').lazy_load({
-    paths = { './snippets/' },
-  })
 end
 
 return config
