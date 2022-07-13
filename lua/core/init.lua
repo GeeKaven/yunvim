@@ -24,11 +24,14 @@ local create_cache_dir = function()
 end
 
 local load = function()
-
+  local packer = require("core.packer")
   create_cache_dir()
-  require('core.plugins')
+
+  packer.ensure_plugins()
   require("core.options")
+  packer.load_compile()
   require("core.keymap")
+
 end
 
 load()
