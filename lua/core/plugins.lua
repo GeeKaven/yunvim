@@ -84,9 +84,19 @@ return packer.startup(function()
       },
     }
   })
+
   use({
     "terrortylor/nvim-comment",
     config = require("plugins.others").nvim_comment
+  })
+
+  use({
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function ()
+      require("plugins.gitsigns")
+    end,
+    requires = { "nvim-lua/plenary.nvim" }
   })
 
   if yu_packer.first then
