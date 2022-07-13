@@ -61,6 +61,7 @@ end
 
 function Packer:init_ensure_plugins()
   local packer_dir = data_dir .. 'pack/packer/opt/packer.nvim'
+  print(packer_dir)
   local state = uv.fs_stat(packer_dir)
   if not state then
     local cmd = '!git clone https://github.com/wbthomason/packer.nvim ' .. packer_dir

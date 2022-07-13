@@ -1,7 +1,7 @@
-local C = {}
+local config = {}
 
-function C.tokyonight()
+config.tokyonight = function ()
   vim.cmd("colorscheme tokyonight")
 end
 
-return C
+return config

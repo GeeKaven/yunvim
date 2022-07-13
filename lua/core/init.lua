@@ -15,7 +15,6 @@ local create_cache_dir = function()
     os.execute("mkdir -p " .. cache_dir)
     for _, v in pairs(data_dir) do
       if vim.fn.isdirectory(v) == 0 then
-        print(v)
         os.execute("mkdir -p " .. v)
       end
     end
