@@ -1,150 +1,53 @@
--- base : glepnr https://github.com/glepnir
+local cmd, fn = vim.cmd, vim.fn
 
-local fn, uv, api = vim.fn, vim.loop, vim.api
-local vim_path = vim.fn.stdpath('config')
-local data_dir = string.format('%s/site/', vim.fn.stdpath('data'))
-local modules_dir = vim_path .. '/lua/plugins'
-local packer_compiled = data_dir .. 'lua/packer_compiled.lua'
-local packer = nil
+local state_ok, packer = pcall(require, "packer")
 
-local Packer = {}
-Packer.__index = Packer
+local PACKER_BOOTSTRAP = false
 
-function Packer:load_plugins()
-  self.repos = {}
+if not state_ok then
+  local packer_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
-  local get_plugins_list = function()
-    local list = {}
-    local tmp = vim.split(fn.globpath(modules_dir, '*/plugins.lua'), '\n')
-    for _, f in ipairs(tmp) do
-      list[#list + 1] = string.match(f, 'lua/(.+).lua$')
-    end
-    return list
-  end
-
-  local plugins_file = get_plugins_list()
-  for _, m in ipairs(plugins_file) do
-    require(m)
-  end
-end
-
-function Packer:load_packer()
-  if not packer then
-    api.nvim_command('packadd packer.nvim')
-    packer = require('packer')
-  end
-  packer.init({
-    compile_path = packer_compiled,
-    auto_clean = true,
-    compile_on_sync = true,
-    git = { clone_timeout = 1200 },
-    disable_commands = true,
-    display = {
-      working_sym = "ﲊ",
-      error_sym = "✗ ",
-      done_sym = " ",
-      removed_sym = " ",
-      moved_sym = "",
-      open_fn = function()
-         return require("packer.util").float { border = "rounded" }
-      end,
-   },
+  print("Cloning packer ..")
+  fn.system({
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "https://github.com/wbthomason/packer.nvim",
+    packer_path,
   })
-  packer.reset()
-  local use = packer.use
-  self:load_plugins()
-  use({ 'wbthomason/packer.nvim', opt = true })
-  for _, repo in ipairs(self.repos) do
-    use(repo)
+  print("Installing packer close and reopen Neovim...")
+
+  cmd("packadd packer.nvim")
+
+  state_ok, packer = pcall(require, "packer")
+
+  if state_ok then
+    print('Packer cloned successfully.')
+    PACKER_BOOTSTRAP = true
+  else
+    error("Couldn't clone packer !\n Path :" .. packer_path .. "\n" .. packer)
   end
 end
 
-function Packer:init_ensure_plugins()
-  local packer_dir = data_dir .. 'pack/packer/opt/packer.nvim'
-  print(packer_dir)
-  local state = uv.fs_stat(packer_dir)
-  if not state then
-    local cmd = '!git clone https://github.com/wbthomason/packer.nvim ' .. packer_dir
-    api.nvim_command(cmd)
-    uv.fs_mkdir(data_dir .. 'lua', 511, function()
-      assert('make compile path dir faield')
-    end)
-    self:load_packer()
-    packer.sync()
-  end
-end
-
-local plugins = setmetatable({}, {
-  __index = function(_, key)
-    if not packer then
-      Packer:load_packer()
-    end
-    return packer[key]
-  end,
+packer.init({
+  display = {
+    working_sym = "ﲊ",
+    error_sym = "✗ ",
+    done_sym = " ",
+    removed_sym = " ",
+    moved_sym = "",
+    open_fn = function()
+      return require("packer.util").float { border = "rounded" }
+    end,
+  },
+  git = { clone_timeout = 1200 },
+  compile_path = fn.stdpath("config") .. "/lua/compiled.lua",
+  auto_clean = true,
+  compile_on_sync = true,
 })
 
-function plugins.ensure_plugins()
-  Packer:init_ensure_plugins()
-end
-
-function plugins.register_plugin(repo)
-  table.insert(Packer.repos, repo)
-end
-
--- function plugins.compile_notify()
---   plugins.compile()
---   vim.notify('Compile Done!','info',{ title = 'Packer' })
--- end
-
-function plugins.auto_compile()
-  local file = vim.fn.expand('%:p')
-  if not file:match(vim_path) then
-    return
-  end
-
-  if file:match('plugins.lua') then
-    plugins.clean()
-  end
-  plugins.compile()
-  require('packer_compiled')
-end
-
-function plugins.load_compile()
-  if vim.fn.filereadable(packer_compiled) == 1 then
-    require('packer_compiled')
-  else
-    vim.notify('Run PackerSync or PackerCompile', 'info', { title = 'Packer' })
-  end
-
-  local cmds = {
-    'Compile',
-    'Install',
-    'Update',
-    'Sync',
-    'Clean',
-    'Status',
-  }
-  for _, cmd in ipairs(cmds) do
-    api.nvim_create_user_command('Packer' .. cmd, function()
-      require('core.packer')[fn.tolower(cmd)]()
-    end, {})
-  end
-
-  local PackerHooks = vim.api.nvim_create_augroup('PackerHooks', {})
-  vim.api.nvim_create_autocmd('User', {
-    pattern = 'PackerCompileDone',
-    callback = function()
-      vim.notify('Compile Done!', vim.log.levels.INFO, { title = 'Packer' })
-    end,
-    group = PackerHooks,
-  })
-
-  -- vim.cmd [[command! PackerCompile lua require('core.pack').compile()]]
-  -- vim.cmd [[command! PackerInstall lua require('core.pack').install()]]
-  -- vim.cmd [[command! PackerUpdate lua require('core.pack').update()]]
-  -- vim.cmd [[command! PackerSync lua require('core.pack').sync()]]
-  -- vim.cmd [[command! PackerClean lua require('core.pack').clean()]]
-  -- vim.cmd [[command! PackerStatus  lua require('packer').status()]]
-end
-
-return plugins
+return {
+  packer = packer,
+  first = PACKER_BOOTSTRAP
+}
