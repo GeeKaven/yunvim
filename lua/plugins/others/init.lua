@@ -14,8 +14,12 @@ M.nvim_comment = function()
   })
 end
 
-M.matchup = function ()
+M.matchup = function()
   vim.cmd([[let g:matchup_matchparen_offscreen = {'method': 'popup'}]])
+end
+
+M.nvim_colorizer = function()
+  require("colorizer").setup()
 end
 
 return M

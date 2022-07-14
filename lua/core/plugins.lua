@@ -128,6 +128,12 @@ return packer.startup(function()
     end
   }
 
+  use {
+    "norcalli/nvim-colorizer.lua",
+    event = "BufReadPost",
+    config = require("plugins.others").nvim_colorizer
+  }
+
   if yu_packer.first then
     packer.sync()
   end
