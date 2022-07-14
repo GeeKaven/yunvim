@@ -79,6 +79,7 @@ local options = {
   softtabstop = 1,
   breakindentopt = "shift:2,min:20",
   linebreak = true,
+  guifont = "FiraCode Nerd Font"
 }
 
 for k, v in pairs(options) do

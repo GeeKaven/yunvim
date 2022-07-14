@@ -19,9 +19,21 @@ keymap("n", "<A-Down>", ":resize -2<CR>", opts)
 keymap("n", "<A-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<A-Right>", ":vertical resize +2<CR>", opts)
 
--- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts)
-keymap("n", "<S-h>", ":bprevious<CR>", opts)
+-- Navigate bufferline
+keymap("n", "<Leader>bq", "<cmd> :Bdelete <CR>", opts)
+keymap("n", "gb", "<cmd> BufferLinePick <CR>", opts)
+keymap("n", "<S-l>", "<cmd> BufferLineCycleNext<CR>", opts)
+keymap("n", "<S-h>", "<cmd> BufferLineCyclePrev<CR>", opts)
+keymap("n", "<A-S-l>", "<cmd> BufferLineMoveNext<CR>", opts)
+keymap("n", "<A-S-h>", "<cmd> BufferLineMovePrev<CR>", opts)
+keymap("n", "<Leader>be", "<cmd> BufferLineSortByExtension<CR>", opts)
+keymap("n", "<Leader>bd", "<cmd> BufferLineSortByDirectory<CR>", opts)
+keymap("n", "<A-1>", "<cmd> BufferLineGoToBuffer 1<CR>", opts)
+keymap("n", "<A-2>", "<cmd> BufferLineGoToBuffer 2<CR>", opts)
+keymap("n", "<A-3>", "<cmd> BufferLineGoToBuffer 3<CR>", opts)
+keymap("n", "<A-4>", "<cmd> BufferLineGoToBuffer 4<CR>", opts)
+keymap("n", "<A-5>", "<cmd> BufferLineGoToBuffer 5<CR>", opts)
+keymap("n", "<A-6>", "<cmd> BufferLineGoToBuffer 6<CR>", opts)
 
 -- Move text up and down
 keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
@@ -29,9 +41,14 @@ keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 
 -- save file
 keymap("n", "<C-s>", ":w<CR>", opts)
+keymap("n", "<C-q>", ":wq<CR>", opts)
+keymap("n", "<A-S-q>", ":q!<CR>", opts)
 
 -- Nvimtree
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
+
+-- no highlight
+keymap("n", "<ESC>", "<cmd> noh <CR>", opts)
 
 -- Telescope
 keymap("n", "<Leader>ff", "<cmd> Telescope find_files <CR>", opts)
@@ -43,10 +60,15 @@ keymap("n", "<Leader>fg", "<cmd> Telescope git_files <CR>", opts)
 keymap("n", "<Leader>gc", "<cmd> Telescope git_commits <CR>", opts)
 keymap("n", "<Leader>gs", "<cmd> Telescope git_status <CR>", opts)
 
+-- Packer
+keymap("n", "<Leader>ps", "<cmd> PackerSync <CR>", opts)
+keymap("n", "<Leader>pu", "<cmd> PackerUpdate <CR>", opts)
+keymap("n", "<Leader>pi", "<cmd> PackerInstall <CR>", opts)
+keymap("n", "<Leader>pc", "<cmd> PackerClean <CR>", opts)
 
 -- Insert --
--- Press jk fast to exit insert mode 
 keymap("i", "<C-s>", "<ESC>:w<CR>", opts)
+keymap("i", "<C-q>", "<ESC>:wq<CR>", opts)
 keymap("i", "<C-b>", "<ESC>^i", opts)      -- 論 beginning of line
 keymap("i", "<C-e>", "<End>", opts)        -- 壟 end of line
 

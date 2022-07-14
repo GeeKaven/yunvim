@@ -93,7 +93,7 @@ return packer.startup(function()
   use({
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPost", "BufNewFile" },
-    config = function ()
+    config = function()
       require("plugins.gitsigns")
     end,
     requires = { "nvim-lua/plenary.nvim" }
@@ -104,10 +104,19 @@ return packer.startup(function()
     requires = {
       'kyazdani42/nvim-web-devicons',
     },
-    config = function ()
+    config = function()
       require("plugins.nvim-tree")
     end
   })
+
+  use {
+    "akinsho/bufferline.nvim",
+    tag = "v2.*",
+    requires = { "kyazdani42/nvim-web-devicons", "moll/vim-bbye" },
+    config = function()
+      require("plugins.bufferline")
+    end
+  }
 
   if yu_packer.first then
     packer.sync()
