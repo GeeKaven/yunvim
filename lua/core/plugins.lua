@@ -134,6 +134,14 @@ return packer.startup(function()
     config = require("plugins.others").nvim_colorizer
   }
 
+  use {
+    'goolord/alpha-nvim',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function ()
+        require("plugins.alpha")
+    end
+}
+
   if yu_packer.first then
     packer.sync()
   end
