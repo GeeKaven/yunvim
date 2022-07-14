@@ -113,8 +113,18 @@ return packer.startup(function()
     "akinsho/bufferline.nvim",
     tag = "v2.*",
     requires = { "kyazdani42/nvim-web-devicons", "moll/vim-bbye" },
+    event = "BufReadPost",
     config = function()
       require("plugins.bufferline")
+    end
+  }
+
+  use {
+    "akinsho/toggleterm.nvim",
+    tag = 'v2.*',
+    event = "BufReadPost",
+    config = function ()
+      require("plugins.toggleterm")
     end
   }
 
