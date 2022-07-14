@@ -56,8 +56,9 @@ dashboard.config = {
   layout = {
     { type = "padding", val = header_padding },
     dashboard.section.header,
-    { type = "padding", val = foot_butt_padding },
+    { type = "padding", val = head_butt_padding },
     dashboard.section.buttons,
+    { type = "padding", val = foot_butt_padding },
     dashboard.section.footer,
   },
   opts = {
