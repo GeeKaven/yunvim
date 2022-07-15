@@ -43,7 +43,7 @@ cmp.setup({
     { name = "luasnip" },
     { name = "buffer" },
     { name = "path" },
-    -- { name = "nvim_lsp" },
+    { name = "nvim_lsp" },
     { name = "nvim_lua" }
   },
   mapping = {
@@ -85,7 +85,7 @@ cmp.setup({
       -- Source
       vim_item.menu = ({
         buffer = "[BUF]",
-        -- nvim_lsp = "[LSP]",
+        nvim_lsp = "[LSP]",
         luasnip = "[SNIP]",
         path = "[PATH]",
         nvim_lua = "[NVIM_API]]",

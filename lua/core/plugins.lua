@@ -32,6 +32,29 @@ return packer.startup(function()
     config = require("plugins.others").tokyonight,
   })
 
+  use {
+    "neovim/nvim-lspconfig",
+    event = "BufReadPre",
+    config = function()
+      require("plugins.lsp")
+    end,
+    requires = {
+      { "glepnir/lspsaga.nvim", branch = "main", after = "nvim-lspconfig" },
+      { "stevearc/aerial.nvim", after = "nvim-lspconfig", config = require("plugins.others").aerial },
+      { "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" }
+    }
+  }
+
+  use {
+    "RRethy/vim-illuminate",
+    event = "BufReadPost",
+    config = require("plugins.others").illuminate
+  }
+
+  use {
+    "williamboman/nvim-lsp-installer",
+  }
+
   use({
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
@@ -42,7 +65,7 @@ return packer.startup(function()
       { "hrsh7th/cmp-path", after = "nvim-cmp" },
       { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
       { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
-      -- { "hrsh7th/cmp-nvim-lsp", after = "nvim-lspconfig" },
+      { "hrsh7th/cmp-nvim-lsp", after = "nvim-lspconfig" },
       { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" },
       {
         "windwp/nvim-autopairs",

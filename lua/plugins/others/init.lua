@@ -59,8 +59,23 @@ M.nvim_scrollview = function()
   require('scrollview').setup()
 end
 
-M.aerial = function ()
+M.aerial = function()
   require('aerial').setup({})
+end
+
+M.illuminate = function()
+  vim.g.Illuminate_highlightUnderCursor = 0
+  vim.g.Illuminate_ftblacklist = {
+    "help",
+    "dashboard",
+    "alpha",
+    "packer",
+    "norg",
+    "DoomInfo",
+    "NvimTree",
+    "Outline",
+    "toggleterm",
+  }
 end
 
 return M
