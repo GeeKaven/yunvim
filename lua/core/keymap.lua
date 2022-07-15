@@ -57,6 +57,7 @@ keymap("n", "<Leader>fb", "<cmd> Telescope buffers <CR>", opts)
 keymap("n", "<Leader>fh", "<cmd> Telescope help_tags <CR>", opts)
 keymap("n", "<Leader>fo", "<cmd> Telescope oldfiles <CR>", opts)
 keymap("n", "<Leader>fg", "<cmd> Telescope git_files <CR>", opts)
+keymap("n", "<Leader>fz", "<cmd> Telescope zoxide list <CR>", opts)
 keymap("n", "<Leader>gc", "<cmd> Telescope git_commits <CR>", opts)
 keymap("n", "<Leader>gs", "<cmd> Telescope git_status <CR>", opts)
 
@@ -81,6 +82,11 @@ keymap("v", ">", ">gv", opts)
 keymap("v", "<A-j>", ":m .+1<CR>==", opts)
 keymap("v", "<A-k>", ":m .-2<CR>==", opts)
 keymap("v", "p", '"_dP', opts)
+
+-- SnapRun
+keymap("v", "<Leader>r", "<cmd> SnipRun <CR>", opts)
+keymap("v", "<Leader>c", "<cmd> SnipClose <CR>", opts)
+
 
 -- Visual Block --
 -- Move text up and down

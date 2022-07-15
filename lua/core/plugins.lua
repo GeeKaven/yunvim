@@ -20,6 +20,12 @@ return packer.startup(function()
     config = require("plugins.others").nvim_notify
   }
 
+  use {
+    "dstein64/nvim-scrollview",
+    event = "BufReadPost",
+    config = require("plugins.others").nvim_scrollview
+  }
+
   use({
     'folke/tokyonight.nvim',
     as = 'tokyonight',
@@ -118,7 +124,13 @@ return packer.startup(function()
   use {
     "akinsho/bufferline.nvim",
     tag = "v2.*",
-    requires = { "kyazdani42/nvim-web-devicons", "moll/vim-bbye" },
+    requires = {
+      "kyazdani42/nvim-web-devicons",
+      {
+        "moll/vim-bbye",
+        cmd = { "Bdelete", "Bwipeout", "Bdelete!", "Bwipeout!" },
+      }
+    },
     event = "BufReadPost",
     config = function()
       require("plugins.bufferline")
@@ -129,7 +141,7 @@ return packer.startup(function()
     "akinsho/toggleterm.nvim",
     tag = 'v2.*',
     event = "BufReadPost",
-    config = function ()
+    config = function()
       require("plugins.toggleterm")
     end
   }
@@ -143,17 +155,29 @@ return packer.startup(function()
   use {
     'goolord/alpha-nvim',
     requires = { 'kyazdani42/nvim-web-devicons' },
-    config = function ()
-        require("plugins.alpha")
+    config = function()
+      require("plugins.alpha")
     end
   }
 
   use {
     "nvim-lualine/lualine.nvim",
     requires = { "kyazdani42/nvim-web-devicons" },
-    config = function ()
+    config = function()
       require("plugins.lualine")
     end
+  }
+
+  use {
+    "lukas-reineke/indent-blankline.nvim",
+    event = "BufReadPost",
+    config = require("plugins.others").indent_blankline
+  }
+
+  use {
+    'michaelb/sniprun',
+    run = 'bash ./install.sh',
+    cmd = { "SnipRun", "'<,'>SnipRun" },
   }
 
   if yu_packer.first then
