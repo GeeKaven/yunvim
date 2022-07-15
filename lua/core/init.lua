@@ -29,7 +29,6 @@ local modules = {
 }
 
 create_cache_dir()
-
 for _, mod in ipairs(modules) do
   local ok, e = pcall(require, mod)
   if not ok then

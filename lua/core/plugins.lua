@@ -15,6 +15,11 @@ return packer.startup(function()
     'nvim-lua/plenary.nvim',
   })
 
+  use {
+    "rcarriga/nvim-notify",
+    config = require("plugins.others").nvim_notify
+  }
+
   use({
     'folke/tokyonight.nvim',
     as = 'tokyonight',
