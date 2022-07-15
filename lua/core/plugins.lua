@@ -141,7 +141,15 @@ return packer.startup(function()
     config = function ()
         require("plugins.alpha")
     end
-}
+  }
+
+  use {
+    "nvim-lualine/lualine.nvim",
+    requires = { "kyazdani42/nvim-web-devicons" },
+    config = function ()
+      require("plugins.lualine")
+    end
+  }
 
   if yu_packer.first then
     packer.sync()
