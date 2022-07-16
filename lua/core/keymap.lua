@@ -67,6 +67,21 @@ keymap("n", "<Leader>pu", "<cmd> PackerUpdate <CR>", opts)
 keymap("n", "<Leader>pi", "<cmd> PackerInstall <CR>", opts)
 keymap("n", "<Leader>pc", "<cmd> PackerClean <CR>", opts)
 
+-- LSP
+keymap("n", "<Leader>ca", "<cmd> Lspsaga code_action <CR>", opts)
+keymap("v", "<Leader>ca", "<cmd> Lspsaga range_code_action <CR>", opts)
+keymap("n", "gd", "<cmd> Lspsaga preview_definition <CR>", opts)
+keymap("n", "gD", "<cmd> lua vim.lsp.buf.definition() <CR>", opts)
+keymap("n", "gh", "<cmd> lua vim.lsp.buf.references() <CR>", opts)
+keymap("n", "g[", "<cmd> Lspsaga diagnostic_jump_prev <CR>", opts)
+keymap("n", "g]", "<cmd> Lspsaga diagnostic_jump_next <CR>", opts)
+keymap("n", "gs", "<cmd> Lspsaga signature_help <CR>", opts)
+keymap("n", "gr", "<cmd> Lspsaga rename <CR>", opts)
+keymap("n", "K", "<cmd> Lspsaga hover_doc <CR>", opts)
+keymap("n", "<C-Up>", "<cmd> lua require('lspsaga.action').smart_scroll_with_saga(-1) <CR>", opts)
+keymap("n", "<C-Down>", "<cmd> lua require('lspsaga.action').smart_scroll_with_saga(1) <CR>", opts)
+
+
 -- Insert --
 keymap("i", "<C-s>", "<ESC>:w<CR>", opts)
 keymap("i", "<C-q>", "<ESC>:wq<CR>", opts)
