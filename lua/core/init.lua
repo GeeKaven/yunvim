@@ -22,16 +22,11 @@ local create_cache_dir = function()
 
 end
 
-local modules = {
-  "core.options",
-  "core.plugins",
-  "core.keymap"
-}
-
 create_cache_dir()
-for _, mod in ipairs(modules) do
-  local ok, e = pcall(require, mod)
-  if not ok then
-    error(("Error loading %s ... \n\n %s"):format(mod, e))
-  end
-end
+
+local pack = require("core.pack")
+
+pack.bootstrapping()
+require("core.options")
+require("core.keymap")
+pack.load_compile()

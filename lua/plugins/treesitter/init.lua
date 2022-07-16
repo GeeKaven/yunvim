@@ -1,7 +1,4 @@
-local status_ok, configs = pcall(require, "nvim-treesitter.configs")
-if not status_ok then
-  return
-end
+local configs = require("nvim-treesitter.configs")
 
 vim.api.nvim_command("set foldmethod=expr")
 vim.api.nvim_command("set foldexpr=nvim_treesitter#foldexpr()")

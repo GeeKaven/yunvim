@@ -1,9 +1,4 @@
-local status_ok, lualine = pcall(require, "lualine")
-if not status_ok then
-  print("not lualine")
-  return
-end
-
+local lualine = require("lualine")
 local navic = require("nvim-navic")
 
 local mini_sections = {

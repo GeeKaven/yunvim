@@ -1,69 +1,172 @@
-local yu_packer = require("core.pack")
-local packer = yu_packer.packer
-local use = packer.use
-
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]])
-
-return packer.startup(function()
-  use({
-    'wbthomason/packer.nvim',
-    'nvim-lua/plenary.nvim',
-  })
-
-  use {
-    "rcarriga/nvim-notify",
-    config = require("plugins.others").nvim_notify
-  }
-
-  use {
-    "dstein64/nvim-scrollview",
-    event = "BufReadPost",
-    config = require("plugins.others").nvim_scrollview
-  }
-
-  use({
-    'folke/tokyonight.nvim',
+local plugins = {
+  -- UI
+  ["folke/tokyonight.nvim"] = {
     as = 'tokyonight',
     config = require("plugins.others").tokyonight,
-  })
+  },
+  ["kyazdani42/nvim-web-devicons"] = { opt = false },
+  ["rcarriga/nvim-notify"] = {
+    config = require("plugins.others").nvim_notify
+  },
+  ["nvim-lualine/lualine.nvim"] = {
+    after = "nvim-navic",
+    requires = { "kyazdani42/nvim-web-devicons" },
+    config = function()
+      require("plugins.lualine")
+    end
+  },
+  ["kyazdani42/nvim-tree.lua"] = {
+    cmd = { "NvimTreeToggle" },
+    requires = {
+      'kyazdani42/nvim-web-devicons',
+    },
+    config = function()
+      require("plugins.nvim-tree")
+    end
+  },
+  ["SmiteshP/nvim-navic"] = {
+    opt = true,
+    requires = "neovim/nvim-lspconfig",
+    after = "nvim-treesitter",
+    config = require("plugins.others").nvim_navic
+  },
+  ["goolord/alpha-nvim"] = {
+    opt = true,
+    event = "BufWinEnter",
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function()
+      require("plugins.alpha")
+    end
+  },
+  ["akinsho/bufferline.nvim"] = {
+    opt = true,
+    tag = "v2.*",
+    event = "BufReadPost",
+    config = function()
+      require("plugins.bufferline")
+    end
+  },
+  ["dstein64/nvim-scrollview"] = {
+    opt = true,
+    event = "BufReadPost",
+    config = require("plugins.others").nvim_scrollview
+  },
+  ["lukas-reineke/indent-blankline.nvim"] = {
+    opt = true,
+    event = "BufReadPost",
+    config = require("plugins.others").indent_blankline
+  },
+  ["lewis6991/gitsigns.nvim"] = {
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      require("plugins.gitsigns")
+    end,
+    opt = true,
+    requires = { "nvim-lua/plenary.nvim" }
+  },
 
-  use {
-    "neovim/nvim-lspconfig",
+
+  -- Edit
+  ["RRethy/vim-illuminate"] = {
+    opt = true,
+    event = "BufReadPost",
+    config = require("plugins.others").illuminate
+  },
+  ["terrortylor/nvim-comment"] = {
+    opt = false,
+    config = require("plugins.others").nvim_comment
+  },
+  ["nvim-treesitter/nvim-treesitter"] = {
+    opt = true,
+    run = ':TSUpdate',
+    event = 'BufReadPost',
+    config = function()
+      require("plugins.treesitter")
+    end
+  },
+  ["windwp/nvim-ts-autotag"] = {
+    after = "nvim-treesitter",
+    opt = true
+  },
+  ["JoosepAlviste/nvim-ts-context-commentstring"] = {
+    after = "nvim-treesitter",
+    opt = true,
+  },
+  ["nvim-treesitter/nvim-treesitter-textobjects"] = {
+    after = "nvim-treesitter",
+    opt = true
+  },
+  ["p00f/nvim-ts-rainbow"] = {
+    after = "nvim-treesitter",
+    opt = true
+  },
+  ["andymass/vim-matchup"] = {
+    opt = true,
+    after = "nvim-treesitter",
+    config = require("plugins.others").matchup
+  },
+  ["romainl/vim-cool"] = {
+    opt = true,
+    event = { "CursorMoved", "InsertEnter" }
+  },
+  ["phaazon/hop.nvim"] = {
+    opt = true,
+    branch = "v2",
+    event = "BufReadPost",
+    config = require("plugins.others").hop
+  },
+  ["karb94/neoscroll.nvim"] = {
+    opt = true,
+    event = "BufReadPost",
+    config = require("plugins.others").neoscroll
+  },
+  ["norcalli/nvim-colorizer.lua"] = {
+    opt = true,
+    event = "BufReadPost",
+    config = require("plugins.others").nvim_colorizer
+  },
+  ["moll/vim-bbye"] = {
+    opt = true,
+    cmd = { "Bdelete", "Bwipeout", "Bdelete!", "Bwipeout!" },
+  },
+  ["akinsho/toggleterm.nvim"] = {
+    opt = true,
+    tag = 'v2.*',
+    event = "BufReadPost",
+    config = function()
+      require("plugins.toggleterm")
+    end
+  },
+
+  -- Cmp
+  ["neovim/nvim-lspconfig"] = {
+    opt = true,
     event = "BufReadPre",
     config = function()
       require("plugins.lsp")
     end,
     requires = {
-      { "glepnir/lspsaga.nvim", branch = "main", after = "nvim-lspconfig" },
-      { "stevearc/aerial.nvim", after = "nvim-lspconfig", config = require("plugins.others").aerial },
       { "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" }
     }
-  }
-
-  use {
-    "SmiteshP/nvim-navic",
-    requires = "neovim/nvim-lspconfig",
-    after = "nvim-treesitter",
-    config = require("plugins.others").nvim_navic
-  }
-
-  use {
-    "RRethy/vim-illuminate",
-    event = "BufReadPost",
-    config = require("plugins.others").illuminate
-  }
-
-  use {
-    "williamboman/nvim-lsp-installer",
-  }
-
-  use({
-    "hrsh7th/nvim-cmp",
+  },
+  ["williamboman/nvim-lsp-installer"] = {
+    opt = false,
+  },
+  ["glepnir/lspsaga.nvim"] = {
+    opt = true,
+    branch = "main",
+    after = "nvim-lspconfig"
+  },
+  ["stevearc/aerial.nvim"] = {
+    opt = true,
+    after = "nvim-lspconfig",
+    config = require("plugins.others").aerial
+  },
+  ["ray-x/lsp_signature.nvim"] = {
+    opt = true,
+    after = "nvim-lspconfig"
+  },
+  ["hrsh7th/nvim-cmp"] = {
     event = "InsertEnter",
     config = function()
       require("plugins.nvim-cmp")
@@ -82,152 +185,56 @@ return packer.startup(function()
         end
       }
     }
-  })
-
-  use({
-    "L3MON4D3/LuaSnip",
+  },
+  ["L3MON4D3/LuaSnip"] = {
     config = function()
       require("plugins.luasnip")
     end,
     after = "nvim-cmp",
     requires = "rafamadriz/friendly-snippets"
-  })
+  },
 
-  use({
-    "nvim-telescope/telescope.nvim",
+  -- Tool
+  ["nvim-lua/plenary.nvim"] = { opt = false },
+
+  ["nvim-telescope/telescope.nvim"] = {
+    opt = true,
     config = function()
       require("plugins.telescope")
     end,
     requires = {
-      "nvim-lua/popup.nvim",
-      "nvim-lua/plenary.nvim",
-      { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-      { "nvim-telescope/telescope-project.nvim" }
+      { "nvim-lua/popup.nvim", opt = true },
+      { "nvim-lua/plenary.nvim", opt = false }
     },
-    event = "BufWinEnter"
-  })
-
-  use({
-    "nvim-treesitter/nvim-treesitter",
-    run = ':TSUpdate',
-    event = 'BufReadPost',
-    config = function()
-      require("plugins.treesitter")
-    end,
-    requires = {
-      { "windwp/nvim-ts-autotag", after = "nvim-treesitter" },
-      { "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" },
-      { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" },
-      { "p00f/nvim-ts-rainbow", after = "nvim-treesitter" },
-      {
-        "andymass/vim-matchup",
-        after = "nvim-treesitter",
-        config = require("plugins.others").matchup
-      },
-    }
-  })
-
-  use({
-    "terrortylor/nvim-comment",
-    config = require("plugins.others").nvim_comment
-  })
-
-  use({
-    "lewis6991/gitsigns.nvim",
-    event = { "BufReadPost", "BufNewFile" },
-    config = function()
-      require("plugins.gitsigns")
-    end,
-    requires = { "nvim-lua/plenary.nvim" }
-  })
-
-  use({
-    "kyazdani42/nvim-tree.lua",
-    requires = {
-      'kyazdani42/nvim-web-devicons',
-    },
-    config = function()
-      require("plugins.nvim-tree")
-    end
-  })
-
-  use {
-    "akinsho/bufferline.nvim",
-    tag = "v2.*",
-    requires = {
-      "kyazdani42/nvim-web-devicons",
-      {
-        "moll/vim-bbye",
-        cmd = { "Bdelete", "Bwipeout", "Bdelete!", "Bwipeout!" },
-      }
-    },
-    event = "BufReadPost",
-    config = function()
-      require("plugins.bufferline")
-    end
-  }
-
-  use {
-    "akinsho/toggleterm.nvim",
-    tag = 'v2.*',
-    event = "BufReadPost",
-    config = function()
-      require("plugins.toggleterm")
-    end
-  }
-
-  use {
-    "norcalli/nvim-colorizer.lua",
-    event = "BufReadPost",
-    config = require("plugins.others").nvim_colorizer
-  }
-
-  use {
-    'goolord/alpha-nvim',
-    requires = { 'kyazdani42/nvim-web-devicons' },
-    config = function()
-      require("plugins.alpha")
-    end
-  }
-
-  use {
-    "nvim-lualine/lualine.nvim",
-    after = "nvim-navic",
-    requires = { "kyazdani42/nvim-web-devicons" },
-    config = function()
-      require("plugins.lualine")
-    end
-  }
-
-  use {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "BufReadPost",
-    config = require("plugins.others").indent_blankline
-  }
-
-  use {
-    'michaelb/sniprun',
+    cmd = "Telescope"
+  },
+  ["nvim-telescope/telescope-fzf-native.nvim"] = {
+    run = "make",
+    opt = true,
+    after = "telescope.nvim"
+  },
+  ["nvim-telescope/telescope-project.nvim"] = {
+    opt = true,
+    after = "telescope.nvim"
+  },
+  ["michaelb/sniprun"] = {
+    opt = true,
     run = 'bash ./install.sh',
     cmd = { "SnipRun", "'<,'>SnipRun" },
-  }
-
-  use {
-    "nathom/filetype.nvim",
+  },
+  ["nathom/filetype.nvim"] = {
+    opt = false,
     config = require("plugins.others").filetype
+  },
+  ["folke/which-key.nvim"] = {
+    opt = false,
+    config = require("plugins.others").which_key
+  },
+  ["dstein64/vim-startuptime"] = {
+    opt = true,
+    cmd = "StartupTime"
   }
 
-  use {
-    "romainl/vim-cool",
-    event = { "CursorMoved", "InsertEnter" }
-  }
+}
 
-  use {
-    "phaazon/hop.nvim",
-    branch = 'v2', -- optional but strongly recommended
-    config = require("plugins.others").hop
-  }
-
-  if yu_packer.first then
-    packer.sync()
-  end
-end)
+return plugins
