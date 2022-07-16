@@ -216,6 +216,17 @@ return packer.startup(function()
     config = require("plugins.others").filetype
   }
 
+  use {
+    "romainl/vim-cool",
+    event = { "CursorMoved", "InsertEnter" }
+  }
+
+  use {
+    "phaazon/hop.nvim",
+    branch = 'v2', -- optional but strongly recommended
+    config = require("plugins.others").hop
+  }
+
   if yu_packer.first then
     packer.sync()
   end

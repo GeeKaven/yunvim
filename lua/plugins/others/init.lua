@@ -93,4 +93,10 @@ M.filetype = function()
   })
 end
 
+M.hop = function ()
+  require("hop").setup({
+    keys = 'etovxqpdygfblzhckisuran'
+  })
+end
+
 return M

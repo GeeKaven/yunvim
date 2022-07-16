@@ -50,7 +50,7 @@ keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 -- no highlight
 keymap("n", "<ESC>", "<cmd> noh <CR>", opts)
 
--- Telescope
+-- Plugin Telescope
 keymap("n", "<Leader>ff", "<cmd> Telescope find_files <CR>", opts)
 keymap("n", "<Leader>fw", "<cmd> Telescope live_grep <CR>", opts)
 keymap("n", "<Leader>fb", "<cmd> Telescope buffers <CR>", opts)
@@ -67,7 +67,7 @@ keymap("n", "<Leader>pu", "<cmd> PackerUpdate <CR>", opts)
 keymap("n", "<Leader>pi", "<cmd> PackerInstall <CR>", opts)
 keymap("n", "<Leader>pc", "<cmd> PackerClean <CR>", opts)
 
--- LSP
+-- Plugin LSP
 keymap("n", "<Leader>ca", "<cmd> Lspsaga code_action <CR>", opts)
 keymap("v", "<Leader>ca", "<cmd> Lspsaga range_code_action <CR>", opts)
 keymap("n", "gd", "<cmd> Lspsaga preview_definition <CR>", opts)
@@ -81,6 +81,12 @@ keymap("n", "K", "<cmd> Lspsaga hover_doc <CR>", opts)
 keymap("n", "<C-Up>", "<cmd> lua require('lspsaga.action').smart_scroll_with_saga(-1) <CR>", opts)
 keymap("n", "<C-Down>", "<cmd> lua require('lspsaga.action').smart_scroll_with_saga(1) <CR>", opts)
 
+-- Plugin Hop
+keymap("n", "<Leader>w", "<cmd> HopWord <CR>", opts)
+keymap("n", "<Leader>j", "<cmd> HopLine <CR>", opts)
+keymap("n", "<Leader>k", "<cmd> HopLine <CR>", opts)
+keymap("n", "<Leader>c", "<cmd> HopChar1 <CR>", opts)
+keymap("n", "<Leader>cc", "<cmd> HopChar2 <CR>", opts)
 
 -- Insert --
 keymap("i", "<C-s>", "<ESC>:w<CR>", opts)
