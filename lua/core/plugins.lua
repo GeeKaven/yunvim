@@ -46,6 +46,13 @@ return packer.startup(function()
   }
 
   use {
+    "SmiteshP/nvim-navic",
+    requires = "neovim/nvim-lspconfig",
+    after = "nvim-treesitter",
+    config = require("plugins.others").nvim_navic
+  }
+
+  use {
     "RRethy/vim-illuminate",
     event = "BufReadPost",
     config = require("plugins.others").illuminate
@@ -185,6 +192,7 @@ return packer.startup(function()
 
   use {
     "nvim-lualine/lualine.nvim",
+    after = "nvim-navic",
     requires = { "kyazdani42/nvim-web-devicons" },
     config = function()
       require("plugins.lualine")
@@ -201,6 +209,11 @@ return packer.startup(function()
     'michaelb/sniprun',
     run = 'bash ./install.sh',
     cmd = { "SnipRun", "'<,'>SnipRun" },
+  }
+
+  use {
+    "nathom/filetype.nvim",
+    config = require("plugins.others").filetype
   }
 
   if yu_packer.first then

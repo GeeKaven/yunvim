@@ -78,4 +78,19 @@ M.illuminate = function()
   }
 end
 
+M.nvim_navic = function()
+  require("nvim-navic").setup({})
+end
+
+M.filetype = function()
+  require("filetype").setup({
+    overrides = {
+      shebang = {
+        -- Set the filetype of files with a dash shebang to sh
+        dash = "sh",
+      },
+    }
+  })
+end
+
 return M

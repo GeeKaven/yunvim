@@ -1,6 +1,7 @@
 vim.cmd([[packadd lsp_signature.nvim]])
 vim.cmd([[packadd lspsaga.nvim]])
 vim.cmd([[packadd cmp-nvim-lsp]])
+vim.cmd([[packadd nvim-navic]])
 vim.cmd([[packadd aerial.nvim]])
 vim.cmd([[packadd vim-illuminate]])
 
@@ -12,7 +13,7 @@ saga.init_lsp_saga({
   -- your configuration
 })
 
-local function custom_attach(client, buf)
+local function custom_attach(client, bufnr)
 
   if client.name == "tsserver" then
     client.resolved_capabilities.document_formatting = false
@@ -27,8 +28,9 @@ local function custom_attach(client, buf)
     hi_parameter = "Search",
     handler_opts = { "double" },
   })
-  require("aerial").on_attach(client)
+  require("aerial").on_attach(client, bufnr)
   require("illuminate").on_attach(client)
+  require("nvim-navic").attach(client, bufnr)
 end
 
 -- 1. Set up nvim-lsp-installer first!
