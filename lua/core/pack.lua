@@ -50,7 +50,7 @@ function Packer:load_packer()
       removed_sym = " ",
       moved_sym = "",
       open_fn = function()
-        return require("packer.util").float { border = "rounded" }
+        return require("packer.util").float { border = "single" }
       end,
     },
     git = { clone_timeout = 1200 },

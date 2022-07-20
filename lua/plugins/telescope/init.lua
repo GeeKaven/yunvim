@@ -1,6 +1,7 @@
 local telescope = require("telescope")
 
-local actions = require("telescope.actions")
+vim.cmd([[packadd telescope-fzf-native.nvim]])
+vim.cmd([[packadd telescope-project.nvim]])
 
 telescope.setup({
   defaults = {

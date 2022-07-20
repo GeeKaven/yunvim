@@ -137,6 +137,20 @@ local plugins = {
       require("plugins.toggleterm")
     end
   },
+  ["rcarriga/nvim-dap-ui"] = {
+    opt = false,
+    config = require("plugins.dap").dapui,
+    requires = {
+      { "mfussenegger/nvim-dap", config = require("plugins.dap").dap },
+      -- {
+      --   "Pocco81/dap-buddy.nvim",
+      --   opt = true,
+      --   cmd = { "DIInstall", "DIUninstall", "DIList" },
+      --   commit = "24923c3819a450a772bb8f675926d530e829665f",
+      --   config = require("plugins.dap").dapinstall,
+      -- },
+    },
+  },
 
   -- Cmp
   ["neovim/nvim-lspconfig"] = {

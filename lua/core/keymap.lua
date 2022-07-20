@@ -88,6 +88,22 @@ keymap("n", "<Leader>k", "<cmd> HopLine <CR>", opts)
 keymap("n", "<Leader>c", "<cmd> HopChar1 <CR>", opts)
 keymap("n", "<Leader>cc", "<cmd> HopChar2 <CR>", opts)
 
+-- Plugin Aerial
+keymap("n", "<A-t>", "<cnd> AerialToggle! right <CR>", opts)
+
+-- Plugin Dap
+keymap("n", "<F5>", "<cmd> lua require('dap').continue() <CR>", opts)
+keymap("n", "<F10>", "<cmd> lua require('dap').step_over() <CR>", opts)
+keymap("n", "<F11>", "<cmd> lua require('dap').step_into() <CR>", opts)
+keymap("n", "<F12>", "<cmd> lua require('dap').step_out() <CR>", opts)
+-- keymap("n", "<Leader>dd", "<cmd> lua require('dap').terminate() require('dapui').close() <CR>", opts)
+keymap("n", "<Leader>db", "<cmd> lua require('dap').toggle_breakpoint() <CR>", opts)
+keymap("n", "<Leader>dB", "<cmd> lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) <CR>", opts)
+keymap("n", "<Leader>dbl", "<cmd> lua require('dap').list_breakpoints() <CR>", opts)
+keymap("n", "<Leader>dc", "<cmd> lua require('dap').run_to_cursor() <CR>", opts)
+keymap("n", "<Leader>dl", "<cmd> lua require('dap').run_last() <CR>", opts)
+keymap("n", "<Leader>dr", "<cmd> lua require('dap').repl.open() <CR>", opts)
+
 -- Insert --
 keymap("i", "<C-s>", "<ESC>:w<CR>", opts)
 keymap("i", "<C-q>", "<ESC>:wq<CR>", opts)

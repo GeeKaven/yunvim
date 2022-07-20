@@ -10,7 +10,7 @@ local lspconfig = require("lspconfig")
 local saga = require("lspsaga")
 
 saga.init_lsp_saga({
-  -- your configuration
+   -- your configuration
 })
 
 local function custom_attach(client, bufnr)
