@@ -159,9 +159,6 @@ local plugins = {
     config = function()
       require("plugins.lsp")
     end,
-    requires = {
-      { "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" }
-    }
   },
   ["williamboman/nvim-lsp-installer"] = {
     opt = false,
