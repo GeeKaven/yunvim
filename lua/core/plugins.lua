@@ -151,6 +151,10 @@ local plugins = {
       -- },
     },
   },
+  ["sindrets/diffview.nvim"] = {
+    opt = true,
+    cmd = { "DiffviewOpen" }
+  },
 
   -- Cmp
   ["neovim/nvim-lspconfig"] = {

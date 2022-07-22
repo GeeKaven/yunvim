@@ -103,7 +103,9 @@ keymap("n", "<Leader>dbl", "<cmd> lua require('dap').list_breakpoints() <CR>", o
 keymap("n", "<Leader>dc", "<cmd> lua require('dap').run_to_cursor() <CR>", opts)
 keymap("n", "<Leader>dl", "<cmd> lua require('dap').run_last() <CR>", opts)
 keymap("n", "<Leader>dr", "<cmd> lua require('dap').repl.open() <CR>", opts)
-
+-- Diffview
+keymap("n", "<Leader>df", "<cmd> DiffviewOpen <CR>", opts)
+keymap("n", "<Leader><Leader>df", "<cmd> DiffviewClose <CR>", opts)
 -- Insert --
 keymap("i", "<C-s>", "<ESC>:w<CR>", opts)
 keymap("i", "<C-q>", "<ESC>:wq<CR>", opts)
