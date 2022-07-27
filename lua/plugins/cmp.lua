@@ -7,6 +7,18 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local under = function(entry1, entry2)
+  local _, entry1_under = entry1.completion_item.label:find "^_+"
+  local _, entry2_under = entry2.completion_item.label:find "^_+"
+  entry1_under = entry1_under or 0
+  entry2_under = entry2_under or 0
+  if entry1_under > entry2_under then
+      return false
+  elseif entry1_under < entry2_under then
+      return true
+  end
+end
+
 local buffer_option = {
   -- Complete from all visible buffers (splits)
   get_bufnrs = function()
@@ -102,12 +114,13 @@ cmp.setup({
   },
   sorting = {
     comparators = {
-      cmp.config.compare.exact,
-      cmp.config.compare.locality,
-      cmp.config.compare.recently_used,
-      cmp.config.compare.score,
       cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      under,
+      cmp.config.compare.kind,
       cmp.config.compare.sort_text,
+      cmp.config.compare.length,
       cmp.config.compare.order,
     },
   },

@@ -10,12 +10,6 @@ end
 
 -- Settings
 
-local on_attach = function (client, bufnr)
-  if client.server_capabilities.colorProvider then
-    require"plugins/lsp/utils/documentcolors".buf_attach(bufnr)
-  end
-end
-
 local filetypes = { "html", "mdx", "javascript", "javascriptreact", "typescriptreact", "vue", "svelte" }
 
 local init_options = {
@@ -49,7 +43,6 @@ local settings = {
   }
 }
 
-M.on_attach = on_attach;
 M.filetypes = filetypes;
 M.capabilities = capabilities;
 M.settings = settings;

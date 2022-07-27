@@ -40,10 +40,10 @@ wk.setup({
     scroll_up = '<c-u>', -- binding to scroll up inside the popup
   },
   window = {
-    border = "shadow", -- none, single, double, shadow
+    border = YuVim.ui.float.border or "rounded", -- none, single, double, shadow
     position = "bottom", -- bottom, top
     margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-    padding = { 1, 1, 1, 1 }, -- extra window padding [top, right, bottom, left]
+    padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
     winblend = 0
   },
   layout = {
@@ -55,8 +55,8 @@ wk.setup({
   ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
   hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
   show_help = true, -- show help message on the command line when the popup is visible
-  -- triggers = "auto", -- automatically setup triggers
-  triggers = { "<leader>" }, -- or specify a list manually
+  triggers = "auto", -- automatically setup triggers
+  -- triggers = { "<leader>" }, -- or specify a list manually
   triggers_blacklist = {
     -- list of mode / prefixes that should never be hooked by WhichKey
     -- this is mostly relevant for key maps that start with a native binding
@@ -105,8 +105,14 @@ local normal_mode_mappings = {
     name = "Yuvim",
     ["/"] = { '<cmd>Alpha<CR>', 'open dashboard' },
     c = { '<cmd>e $MYVIMRC<CR>', 'open config' },
+  },
+
+  p = {
+    name = "Packer",
     i = { '<cmd>PackerInstall<CR>', 'install plugins' },
-    u = { '<cmd>PackerSync<CR>', 'update plugins' },
+    s = { '<cmd>PackerSync<CR>', 'sync plugins' },
+    u = { '<cmd>PackerUpdate<CR>', 'updae plugins'},
+    c = { '<cmd>PackerClean<CR>', 'clean, plugins'}
   },
 
   a = {
@@ -131,7 +137,7 @@ local normal_mode_mappings = {
 
   c = {
     name = "LSP",
-    a = { '<cmd> Lspsaga code_action <CR>', 'code action' },
+    a = { 'code action' },
   },
 
   h = {
@@ -152,34 +158,41 @@ local normal_mode_mappings = {
     g = { '<cmd> Telescope git_files <CR>', 'find git files' },
     c = { '<cmd>Telescope colorscheme<CR>', 'color schemes' },
     s = { '<cmd>Telescope search_history theme=dropdown<CR>', 'search history' }
-
-
   },
+
   g = {
     name = "Telescope git",
-    c = { '<cmd> Telescope git_commits <CR>', 'git commits' },
-    s = { '<cmd> Telescope git_status <CR>', 'git status' },
+    c = { '<cmd> Telescope git_commits <CR>', 'find git commits' },
+    s = { '<cmd> Telescope git_status <CR>', 'find git status' },
+    d = {'<cmd> DiffviewOpen <CR>', 'diff open'},
+    D = {'<cmd> DiffviewClose <CR>', 'diff close'},
+    g = { 'lazygit' },
+    h = {
+      name = "Hunk",
+      d = "diff hunk",
+      p = "preview",
+      R = "reset buffer",
+      r = "reset hunk",
+      s = "stage hunk",
+      S = "stage buffer",
+      t = "toggle deleted",
+      u = "undo stage",
+    },
+    m = { 'blame line' },
   },
-}
-
-local extra_mappings = {
-  g = {
-    name = "LSP",
-    d = { '<cmd> Lspsaga preview_definition <CR>', 'preview definition' },
-    D = { '<cmd> lua vim.lsp.buf.definition() <CR>', 'go definition' },
-    h = { '<cmd> lua vim.lsp.buf.references() <CR>', 'references' },
-    ['['] = { '<cmd> Lspsaga diagnostic_jump_prev <CR>', 'diagnostic prev' },
-    [']'] = { '<cmd> Lspsaga diagnostic_jump_next <CR>', 'diagnostic next' },
-    s = { '<cmd> Lspsaga signature_help <CR>', 'signature help' },
-    r = { '<cmd> Lspsaga rename <CR>', 'rename' }
-  },
-  K = { '<cmd> Lspsaga hover_doc <CR>', 'hover doc' },
+  x = {
+    name = "Trouble",
+    x = { '<cmd> TroubleToggle <CR>', 'TroubleToggle' },
+    w = { '<cmd> TroubleToggle workspace_diagnostics <CR>', 'Trouble workspace_diagnostics' },
+    d = { '<cmd> TroubleToggle document_diagnostics <CR>', 'Trouble document_diagnostics' },
+    R = { '<cmd> TroubleToggle lsp_references<cr>', 'Trouble lsp_references' }
+  }
 }
 
 local visual_mode_mappings = {
   c = {
     name = "LSP",
-    a = { '<cmd> Lspsaga range_code_action <CR>', 'range code action' }
+    a = { 'range code action' }
   },
   s = {
     name = "SnipRun",
@@ -189,5 +202,47 @@ local visual_mode_mappings = {
 }
 
 wk.register(normal_mode_mappings, opts)
-wk.register(extra_mappings)
 wk.register(visual_mode_mappings, opts)
+
+local function attach_markdown()
+  wk.register({
+    a = {
+      name = "Actions",
+      m = { '<cmd>MarkdownPreviewToggle<CR>', 'markdown preview' },
+    }
+  }, opts)
+end
+
+local function attach_typescript()
+  wk.register({
+    c = {
+      name = "LSP",
+      F = { '<cmd>TypescriptFixAll<CR>',                   'fix all' },
+      i = { '<cmd>TypescriptAddMissingImports<CR>',        'import all'},
+      o = { '<cmd>TypescriptOrganizeImports<CR>',          'organize imports'},
+      u = { '<cmd>TypescriptRemoveUnused<CR>',             'remove unused' },
+    }
+  }, opts)
+end
+
+local function attach_npm()
+  wk.register({
+    n = {
+      name = "NPM",
+      c = { '<cmd>lua require("package-info").change_version()<CR>', 'change version' },
+      d = { '<cmd>lua require("package-info").delete()<CR>',         'delete package' },
+      h = { "<cmd>lua require('package-info').hide()<CR>",           'hide'},
+      i = { '<cmd>lua require("package-info").install()<CR>',        'install new package' },
+      r = { '<cmd>lua require("package-info").reinstall()<CR>',      'reinstall dependencies' },
+      s = { '<cmd>lua require("package-info").show()<CR>',           'show' },
+      u = { '<cmd>lua require("package-info").update()<CR>',         'update package'},
+    }
+  }, opts)
+end
+
+vim.api.nvim_create_autocmd("BufEnter", { pattern = "*.md",
+  callback = function() attach_markdown() end })
+vim.api.nvim_create_autocmd("BufEnter", { pattern = { "*.ts", "*.tsx" },
+  callback = function() attach_typescript() end })
+vim.api.nvim_create_autocmd("BufEnter", { pattern = { "package.json" },
+  callback = function() attach_npm() end })

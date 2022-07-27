@@ -17,13 +17,14 @@ end
 local saga = require("lspsaga")
 
 saga.init_lsp_saga({
-   -- your configuration
-   border_style = YuVim.ui.float.border
+  -- your configuration
+  border_style = YuVim.ui.float.border
 })
 
 lsp_installer.setup {
   -- A list of servers to automatically install if they're not already installed
-  ensure_installed = { "bashls", "cssls", "eslint", "graphql", "html", "jsonls", "sumneko_lua", "tailwindcss", "tsserver", "vetur", "vuels" },
+  ensure_installed = { "bashls", "cssls", "eslint", "graphql", "html", "jsonls", "sumneko_lua", "tailwindcss", "tsserver",
+    "vetur", "vuels" },
   -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed
   automatic_installation = true,
 
@@ -34,15 +35,37 @@ lsp_installer.setup {
 }
 local lspconfig = require("lspconfig")
 
-local handlers = {
-  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = YuVim.ui.float.border }),
-  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = YuVim.ui.float.border }),
-  ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = YuVim.lsp.virtual_text }),
-}
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = YuVim.ui.float.border,
+})
+
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+  border = YuVim.ui.float.border,
+})
 
 local function on_attach(client, bufnr)
   if client.name == "tsserver" then
-    client.resolved_capabilities.document_formatting = false
+    -- Modifying a server's capabilities is not recommended and is no longer
+    -- necessary thanks to the `vim.lsp.buf.format` API introduced in Neovim
+    -- 0.8. Users with Neovim 0.7 needs to uncomment below lines to make tsserver formatting work (or keep using eslint).
+
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+  end
+
+  if client.name == "eslint" then
+    client.server_capabilities.documentFormattingProvider = true
+    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+    buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+  end
+
+  if client.name == "tailwindcss" then
+    if client.server_capabilities.colorProvider then
+      require "plugins/lsp/utils/documentcolors".buf_attach(bufnr)
+    end
   end
 
   require("lsp_signature").on_attach({
@@ -56,14 +79,20 @@ local function on_attach(client, bufnr)
   })
   require("aerial").on_attach(client, bufnr)
   require("illuminate").on_attach(client)
-  require("nvim-navic").attach(client, bufnr)
-  -- set up buffer keymaps, etc.
+
+  if client.name ~= "cssls"
+      and client.name ~= "tailwindcss"
+      and client.name ~= "eslint"
+      and client.name ~= "graphql" then
+    require("nvim-navic").attach(client, bufnr)
+  end
+
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
 if cmp_nvim_lsp_ok then
-  capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 end
 
 -- Order matters
@@ -77,8 +106,7 @@ if typescript_ok then
     -- LSP Config options
     server = {
       capabilities = tsserver.capabilities,
-      handlers = handlers,
-      on_attach = tsserver.on_attach,
+      on_attach = on_attach,
     }
   })
 end
@@ -86,31 +114,27 @@ local tailwindcss = require('plugins.lsp.servers.tailwindcss')
 lspconfig.tailwindcss.setup {
   capabilities = tsserver.capabilities,
   filetypes = tailwindcss.filetypes,
-  handlers = handlers,
   init_options = tailwindcss.init_options,
-  on_attach = tailwindcss.on_attach,
+  on_attach = on_attach,
   settings = tailwindcss.settings,
 }
 
 local eslint = require('plugins.lsp.servers.eslint')
 lspconfig.eslint.setup {
   capabilities = capabilities,
-  handlers = handlers,
-  on_attach = eslint.on_attach,
+  on_attach = on_attach,
   settings = eslint.settings,
 }
 
 local jsonls = require('plugins.lsp.servers.jsonls')
 lspconfig.jsonls.setup {
   capabilities = capabilities,
-  handlers = handlers,
   on_attach = on_attach,
   settings = jsonls.settings,
 }
 
 local sumneko_lua = require('plugins.lsp.servers.sumneko_lua')
 lspconfig.sumneko_lua.setup {
-  handlers = handlers,
   on_attach = on_attach,
   settings = sumneko_lua.settings,
 }
@@ -118,7 +142,6 @@ lspconfig.sumneko_lua.setup {
 local vuels = require('plugins.lsp.servers.vuels')
 lspconfig.vuels.setup {
   filetypes = vuels.filetypes,
-  handlers = handlers,
   init_options = vuels.init_options,
   on_attach = on_attach,
 }
@@ -127,6 +150,5 @@ for _, server in ipairs { "bashls", "cssls", "graphql", "html", "volar" } do
   lspconfig[server].setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    handlers = handlers,
   }
 end

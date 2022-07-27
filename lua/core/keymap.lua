@@ -36,15 +36,36 @@ keymap("n", "<A-3>", "<cmd> BufferLineGoToBuffer 3<CR>", opts)
 keymap("n", "<A-4>", "<cmd> BufferLineGoToBuffer 4<CR>", opts)
 keymap("n", "<A-5>", "<cmd> BufferLineGoToBuffer 5<CR>", opts)
 keymap("n", "<A-6>", "<cmd> BufferLineGoToBuffer 6<CR>", opts)
-
+ 
 -- Toggle Nvim-Tree
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
 -- Plugin Aerial
 keymap("n", "<A-t>", ":AerialToggle! right<CR>", opts)
 
+-- Easyalign
+keymap("n", "ga", "<Plug>(EasyAlign)", opts)
+keymap("x", "ga", "<Plug>(EasyAlign)", opts)
+
+-- LSP
+keymap("n", "<Leader>li", "<cmd> LspInfo <CR>", opts)
+keymap("n", "<Leader>lr", "<cmd> LspRestart <CR>", opts)
+keymap("n", "<Leader>ca", "<cmd> Lspsaga code_action <CR>", opts)
+keymap("v", "<Leader>ca", "<cmd> Lspsaga range_code_action <CR>", opts)
+keymap("n", "<Leader>cf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
+keymap("v", "<leader>cf", "<cmd>'<.'>lua vim.lsp.buf.range_formatting()<CR>", opts)
+keymap("n", "gd", "<cmd> Lspsaga preview_definition <CR>", opts)
+keymap("n", "gD", "<cmd> lua vim.lsp.buf.definition() <CR>", opts)
+keymap("n", "gh", "<cmd> lua vim.lsp.buf.references() <CR>", opts)
+keymap("n", "g[", "<cmd> Lspsaga diagnostic_jump_prev <CR>", opts)
+keymap("n", "g]", "<cmd> Lspsaga diagnostic_jump_next <CR>", opts)
+keymap("n", "gs", "<cmd> Lspsaga signature_help <CR>", opts)
+keymap("n", "gr", "<cmd> Lspsaga rename <CR>", opts)
+keymap("n", "K", "<cmd> Lspsaga hover_doc <CR>", opts)
+
 -- keymap("n", '<C-f>', "<cmd> lua require('lspsaga.action').smart_scroll_with_saga(-1) <CR>", opts)
 -- keymap("n", '<C-d>', "<cmd> lua require('lspsaga.action').smart_scroll_with_saga(1) <CR>", opts)
+
 ------------------ Normal End ----------------------
 
 -------------------- Insert --------------------

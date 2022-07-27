@@ -20,7 +20,9 @@ local plugins = {
   { 'windwp/nvim-ts-autotag', opt = true, after = 'nvim-treesitter' },
   { 'JoosepAlviste/nvim-ts-context-commentstring', opt = true, after = 'nvim-treesitter' },
   { 'nvim-treesitter/nvim-treesitter-textobjects', opt = true, after = 'nvim-treesitter' },
-  { 'p00f/nvim-ts-rainbow', opt = true, after = 'nvim-treesitter' },
+  { 'p00f/nvim-ts-rainbow',
+    opt = true, after = 'nvim-treesitter', event = "BufReadPost",
+  },
   { 'andymass/vim-matchup', opt = true, after = 'nvim-treesitter',
     setup = function() vim.cmd([[let g:matchup_matchparen_offscreen = {'method': 'popup'}]]) end
   },
@@ -49,10 +51,20 @@ local plugins = {
       require('aerial').setup({})
     end },
   { 'ray-x/lsp_signature.nvim', opt = true, after = 'nvim-lspconfig' },
-  { 'folke/lsp-trouble.nvim', opt = true, after = 'nvim-lspconfig', config = "require('plugins.trouble')" },
   { 'jose-elias-alvarez/typescript.nvim', opt = true, after = 'nvim-lspconfig' },
   { 'SmiteshP/nvim-navic', opt = true, after = 'nvim-lspconfig' },
   { 'RRethy/vim-illuminate', opt = true, event = "BufReadPost", config = "require('plugins.illuminate')" },
+  { 'kevinhwang91/nvim-bqf', opt = true, ft = 'qf', config = "require('plugins.bqf')" },
+  { 'folke/trouble.nvim',
+    opt = true, cmd = { "Trouble", "TroubleToggle", "TroubleRefresh" },
+    config = "require('plugins.trouble')"
+  },
+  { 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+    opt = true, after = 'nvim-lspconfig',
+    config = function()
+      require("lsp_lines").setup()
+    end, 
+  },
 
   -- Cmp
   { 'hrsh7th/nvim-cmp',
@@ -73,8 +85,8 @@ local plugins = {
             only_semantic_versions = true,
           })
         end },
-      { 'saadparwaiz1/cmp_luasnip', opt = true, after = 'cmp-npm' },
-      { 'onsails/lspkind.nvim', opt = true, after = 'cmp_luasnip' }
+      { 'saadparwaiz1/cmp_luasnip', after = 'cmp-npm' },
+      { 'onsails/lspkind.nvim', after = 'cmp_luasnip' },
     }
   },
 
@@ -112,13 +124,17 @@ local plugins = {
     requires = 'kyazdani42/nvim-web-devicons',
     config = "require('plugins.bufferline')"
   },
+  { 'junegunn/vim-easy-align', opt = true, cmd = "EasyAlign" },
   { 'dstein64/nvim-scrollview', opt = true, event = 'BufReadPost' },
   { 'moll/vim-bbye', opt = true, cmd = { 'Bdelete', 'Bwipeout', 'Bdelete!', 'Bwipeout!' } },
   { 'romainl/vim-cool', opt = true, event = { "CursorMoved", "InsertEnter" } },
   { 'terrortylor/nvim-comment', opt = false, config = "require('plugins.comment')" },
   { 'karb94/neoscroll.nvim', opt = true, event = 'BufReadPost', config = "require('plugins.neoscroll')" },
-  { 'folke/which-key.nvim', opt = true, keys = '<Leader>', config = "require('plugins.which_key')" },
+  { 'folke/which-key.nvim', config = "require('plugins.which_key')" },
   { 'nathom/filetype.nvim', opt = false },
+  { 'vuki656/package-info.nvim',
+    opt = true, event = "BufEnter package.json", config = "require('plugins.package_info')",
+    requires = { 'MunifTanjim/nui.nvim', opt = true } },
   { 'akinsho/toggleterm.nvim',
     opt = true, tag = 'v2.*', event = "BufReadPost",
     config = "require('plugins.toggleterm')"
@@ -129,7 +145,20 @@ local plugins = {
       require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
     end
   },
-  { 'michaelb/sniprun', opt = true, run = 'bash ./install.sh', cmd = { "SnipRun", "'<,'>SnipRun" } }
+  { 'michaelb/sniprun', opt = true, run = 'bash ./install.sh', cmd = { "SnipRun", "'<,'>SnipRun" } },
+  { "iamcco/markdown-preview.nvim",
+    opt = true,
+    run = "cd app && pnpm install",
+    setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+    ft = { "markdown" },
+  },
+
+  -- Git
+  { 'lewis6991/gitsigns.nvim',
+    opt = true, event = { 'BufReadPost', 'BufNewFile' }, requires = { 'nvim-lua/plenary.nvim' },
+    config = "require('plugins.git.signs')"
+  },
+  { 'sindrets/diffview.nvim', opt = true, cmd = { 'DiffviewOpen' }, }
 }
 
 return plugins
