@@ -1,1 +1,3 @@
-require("core")
+pcall(require, 'impatient')
+
+require('core')

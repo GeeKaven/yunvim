@@ -24,9 +24,13 @@ end
 
 create_cache_dir()
 
-local pack = require("core.pack")
+require('core.config')
+require('core.setting')
 
-pack.bootstrapping()
-require("core.options")
-require("core.keymap")
-pack.load_compile()
+local packer = require('core.packer')
+packer.bootstrapping()
+require('core.keymap')
+
+packer.load_compile()
+
+vim.cmd('colorscheme tokyonight')
