@@ -159,7 +159,6 @@ local normal_mode_mappings = {
     name = "Telescope git",
     c = { '<cmd> Telescope git_commits <CR>', 'git commits' },
     s = { '<cmd> Telescope git_status <CR>', 'git status' },
-    g = { '<cmd>lua _lazygit_toggle()<CR>', 'Lazygit' }
   },
 }
 
