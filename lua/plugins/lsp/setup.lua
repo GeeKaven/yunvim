@@ -23,8 +23,7 @@ saga.init_lsp_saga({
 
 lsp_installer.setup {
   -- A list of servers to automatically install if they're not already installed
-  ensure_installed = { "bashls", "cssls", "eslint", "graphql", "html", "jsonls", "sumneko_lua", "tailwindcss", "tsserver",
-    "vetur", "vuels" },
+  ensure_installed = { "bashls", "cssls", "eslint", "html", "jsonls", "sumneko_lua", "tailwindcss", "tsserver" },
   -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed
   automatic_installation = true,
 
@@ -139,14 +138,14 @@ lspconfig.sumneko_lua.setup {
   settings = sumneko_lua.settings,
 }
 
-local vuels = require('plugins.lsp.servers.vuels')
-lspconfig.vuels.setup {
-  filetypes = vuels.filetypes,
-  init_options = vuels.init_options,
-  on_attach = on_attach,
-}
+-- local vuels = require('plugins.lsp.servers.vuels')
+-- lspconfig.vuels.setup {
+--   filetypes = vuels.filetypes,
+--   init_options = vuels.init_options,
+--   on_attach = on_attach,
+-- }
 
-for _, server in ipairs { "bashls", "cssls", "graphql", "html", "volar" } do
+for _, server in ipairs { "bashls", "cssls", "html" } do
   lspconfig[server].setup {
     on_attach = on_attach,
     capabilities = capabilities,

@@ -3,7 +3,7 @@ local cache_dir = os.getenv("HOME") .. "/.cache/nvim/"
 local options = {
   backup = false,
   clipboard = "unnamedplus",
-  cmdheight = 2,
+  cmdheight = 1,
   completeopt = "menu,menuone,noselect",
   conceallevel = 0,
   concealcursor = "niv",
@@ -75,7 +75,7 @@ local options = {
   softtabstop = 1,
   breakindentopt = "shift:2,min:20",
   linebreak = true,
-  guifont = "FiraCode Nerd Font Mono"
+  guifont = "JetBrainsMono Nerd Font"
 }
 
 for k, v in pairs(options) do

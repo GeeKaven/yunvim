@@ -63,7 +63,7 @@ local plugins = {
     opt = true, after = 'nvim-lspconfig',
     config = function()
       require("lsp_lines").setup()
-    end, 
+    end,
   },
 
   -- Cmp
@@ -107,13 +107,14 @@ local plugins = {
     config = "require('plugins.indent_blankline')"
   },
   { 'norcalli/nvim-colorizer.lua', opt = true, event = 'BufReadPost', config = "require('plugins.colorizer')" },
-
+  { 'feline-nvim/feline.nvim',
+    opt = true, event = 'BufReadPre',
+    after = 'nvim-navic',
+    config = "require('plugins.feline')"
+  },
   -- General
   { 'rcarriga/nvim-notify', config = "require('plugins.notify')" },
-  { 'nvim-lualine/lualine.nvim',
-    after = 'nvim-navic', requires = { 'kyazdani42/nvim-web-devicons' },
-    config = "require('plugins.lualine')"
-  },
+
   { 'kyazdani42/nvim-tree.lua',
     opt = true, cmd = { 'NvimTreeToggle' },
     requires = { 'kyazdani42/nvim-web-devicons' },
@@ -146,12 +147,13 @@ local plugins = {
     end
   },
   { 'michaelb/sniprun', opt = true, run = 'bash ./install.sh', cmd = { "SnipRun", "'<,'>SnipRun" } },
-  { "iamcco/markdown-preview.nvim",
+  { 'iamcco/markdown-preview.nvim',
     opt = true,
     run = "cd app && pnpm install",
     setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
     ft = { "markdown" },
   },
+  { 'wakatime/vim-wakatime' },
 
   -- Git
   { 'lewis6991/gitsigns.nvim',

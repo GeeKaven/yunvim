@@ -1,5 +1,5 @@
 
-local TREE_WIDTH = 30
+local TREE_WIDTH = 40
 
 local git_icons = {
   unstaged = "",
@@ -69,7 +69,7 @@ require('nvim-tree').setup {
   reload_on_bufenter = false,
   respect_buf_cwd = true,
   view = {
-    adaptive_size = false,
+    adaptive_size = true,
     centralize_selection = false,
     width = TREE_WIDTH,
     height = 30,
@@ -162,7 +162,7 @@ require('nvim-tree').setup {
   },
   filters = {
     dotfiles = false,
-    custom = { ".DS_Store" },
+    custom = { ".DS_Store", ".git" },
     exclude = {},
   },
   filesystem_watchers = {
