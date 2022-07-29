@@ -1,6 +1,5 @@
 local cmp = require('cmp')
 local luasnip = require('luasnip')
-local lspkind = require('lspkind')
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -19,28 +18,57 @@ local under = function(entry1, entry2)
   end
 end
 
-local buffer_option = {
-  -- Complete from all visible buffers (splits)
-  get_bufnrs = function()
-    local bufs = {}
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      bufs[vim.api.nvim_win_get_buf(win)] = true
-    end
-    return vim.tbl_keys(bufs)
-  end
-}
+local border = function (hl_name)
+  return {
+    { "╭", hl_name },
+    { "─", hl_name },
+    { "╮", hl_name },
+    { "│", hl_name },
+    { "╯", hl_name },
+    { "─", hl_name },
+    { "╰", hl_name },
+    { "│", hl_name },
+  }
+end
 
-local source_mapping = {
-  npm         = YuVim.icons.terminal .. 'NPM',
-  cmp_tabnine = YuVim.icons.light,
-  nvim_lsp    = YuVim.icons.paragraph .. 'LSP',
-  buffer      = YuVim.icons.buffer .. 'BUF',
-  nvim_lua    = YuVim.icons.bomb,
-  luasnip     = YuVim.icons.snippet .. 'SNP',
-  calc        = YuVim.icons.calculator,
-  path        = YuVim.icons.folderOpen2,
-  treesitter  = YuVim.icons.tree,
-  zsh         = YuVim.icons.terminal .. 'ZSH',
+local lspkind = {
+  Namespace = "",
+  Text = " ",
+  Method = " ",
+  Function = " ",
+  Constructor = " ",
+  Field = "ﰠ ",
+  Variable = " ",
+  Class = "ﴯ ",
+  Interface = " ",
+  Module = " ",
+  Property = "ﰠ ",
+  Unit = "塞 ",
+  Value = " ",
+  Enum = " ",
+  Keyword = " ",
+  Snippet = " ",
+  Color = " ",
+  File = " ",
+  Reference = " ",
+  Folder = " ",
+  EnumMember = " ",
+  Constant = " ",
+  Struct = "פּ ",
+  Event = " ",
+  Operator = " ",
+  TypeParameter = " ",
+  Table = "",
+  Object = " ",
+  Tag = "",
+  Array = "[]",
+  Boolean = " ",
+  Number = " ",
+  Null = "ﳠ",
+  String = " ",
+  Calendar = "",
+  Watch = " ",
+  Package = "",
 }
 
 cmp.setup({
@@ -54,7 +82,7 @@ cmp.setup({
     { name = 'npm', priority = 9 },
     { name = 'cmp_tabnine', priority = 8, max_num_results = 3 },
     { name = 'luasnip', priority = 7, max_item_count = 8 },
-    { name = 'buffer', priority = 7, keyword_length = 5, option = buffer_option, max_item_count = 8 },
+    { name = 'buffer', priority = 7, keyword_length = 5, max_item_count = 8 },
     { name = 'nvim_lua', priority = 5 },
     { name = 'path', priority = 4 },
     { name = 'calc', priority = 3 },
@@ -92,23 +120,9 @@ cmp.setup({
     end, { "i", "s" }),
   },
   formatting = {
-    fields = { "kind", "abbr", "menu" },
-    format = function(entry, vim_item)
-      vim_item.kind = lspkind.symbolic(vim_item.kind, { with_text = true })
-      local menu = source_mapping[entry.source.name]
-      local maxwidth = 50
-
-      if entry.source.name == 'cmp_tabnine' then
-        if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-          menu = menu .. entry.completion_item.data.detail
-        else
-          menu = menu .. 'TBN'
-        end
-      end
-
-      vim_item.menu = menu
-      vim_item.abbr = string.sub(vim_item.abbr, 1, maxwidth)
-
+    format = function(_, vim_item)
+      local icons = lspkind
+      vim_item.kind = string.format("%s %s", icons[vim_item.kind], vim_item.kind)
       return vim_item
     end
   },
@@ -125,8 +139,13 @@ cmp.setup({
     },
   },
   window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
+    completion = {
+      border = border("CmpBorder"),
+      winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+    },
+    documentation = {
+      border = border("CmpDocBorder"),
+    },
   },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,

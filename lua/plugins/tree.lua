@@ -2,13 +2,13 @@
 local TREE_WIDTH = 40
 
 local git_icons = {
-  unstaged = "",
-  staged = "",
-  unmerged = "שׂ",
-  renamed = "",
-  untracked = "ﲉ",
+  unstaged = "✗",
+  staged = "✓",
+  unmerged = "",
+  renamed = "➜",
+  untracked = "★",
   deleted = "",
-  ignored = ""
+  ignored = "◌",
 }
 
 local keymappings = {

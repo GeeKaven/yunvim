@@ -8,30 +8,12 @@ vim.cmd([[packadd typescript.nvim]])
 
 -- Setup installer & lsp configs
 local typescript_ok, typescript = pcall(require, 'typescript')
-local lsp_installer_ok, lsp_installer = pcall(require, 'nvim-lsp-installer')
-
-if not lsp_installer_ok then
-  return
-end
-
 local saga = require("lspsaga")
 
 saga.init_lsp_saga({
   -- your configuration
   border_style = YuVim.ui.float.border
 })
-
-lsp_installer.setup {
-  -- A list of servers to automatically install if they're not already installed
-  ensure_installed = { "bashls", "cssls", "eslint", "html", "jsonls", "sumneko_lua", "tailwindcss", "tsserver" },
-  -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed
-  automatic_installation = true,
-
-  ui = {
-    -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
-    border = YuVim.ui.float.border or "rounded",
-  }
-}
 local lspconfig = require("lspconfig")
 
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -145,7 +127,7 @@ lspconfig.sumneko_lua.setup {
 --   on_attach = on_attach,
 -- }
 
-for _, server in ipairs { "bashls", "cssls", "html" } do
+for _, server in ipairs { "bashls", "cssls", "html", "taplo", "rust_analyzer" } do
   lspconfig[server].setup {
     on_attach = on_attach,
     capabilities = capabilities,

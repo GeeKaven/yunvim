@@ -43,7 +43,7 @@ local plugins = {
   { 'neovim/nvim-lspconfig', opt = true, event = 'BufReadPre',
     config = "require('plugins.lsp')"
   },
-  { 'williamboman/nvim-lsp-installer', opt = false },
+  { 'williamboman/mason.nvim', opt = false, config = "require('plugins.mason')" },
   -- LSP add-on
   { 'glepnir/lspsaga.nvim', opt = true, branch = "main", after = "nvim-lspconfig" },
   { 'stevearc/aerial.nvim', opt = true, after = "nvim-lspconfig",
@@ -64,6 +64,10 @@ local plugins = {
     config = function()
       require("lsp_lines").setup()
     end,
+  },
+  { 'simrat39/rust-tools.nvim',
+    opt = true, ft = 'rust', requires = { { 'nvim-lua/plenary.nvim', opt = false } },
+    config = "require('plugins.rust_tools')",
   },
 
   -- Cmp
@@ -86,7 +90,6 @@ local plugins = {
           })
         end },
       { 'saadparwaiz1/cmp_luasnip', after = 'cmp-npm' },
-      { 'onsails/lspkind.nvim', after = 'cmp_luasnip' },
     }
   },
 
@@ -106,7 +109,10 @@ local plugins = {
     opt = true, event = 'BufReadPost',
     config = "require('plugins.indent_blankline')"
   },
-  { 'norcalli/nvim-colorizer.lua', opt = true, event = 'BufReadPost', config = "require('plugins.colorizer')" },
+  { 'norcalli/nvim-colorizer.lua',
+    opt = true, event = 'BufReadPost',
+    config = function() require 'colorizer'.setup() end
+  },
   { 'feline-nvim/feline.nvim',
     opt = true, event = 'BufReadPre',
     after = 'nvim-navic',
@@ -160,7 +166,13 @@ local plugins = {
     opt = true, event = { 'BufReadPost', 'BufNewFile' }, requires = { 'nvim-lua/plenary.nvim' },
     config = "require('plugins.git.signs')"
   },
-  { 'sindrets/diffview.nvim', opt = true, cmd = { 'DiffviewOpen' }, }
+  { 'sindrets/diffview.nvim', opt = true, cmd = { 'DiffviewOpen' }, },
+
+  -- DAP
+  { 'rcarriga/nvim-dap-ui',
+    requires = { 'mfussenegger/nvim-dap'},
+    config = "require('plugins.dap')"
+  },
 }
 
 return plugins
