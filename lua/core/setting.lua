@@ -1,5 +1,3 @@
-local cache_dir = os.getenv("HOME") .. "/.cache/nvim/"
-
 local options = {
   backup = false,
   clipboard = "unnamedplus",

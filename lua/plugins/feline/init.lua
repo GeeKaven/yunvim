@@ -1,25 +1,8 @@
 local colors = require("tokyonight.colors").setup()
-local vi_mode_utils = require 'feline.providers.vi_mode'
 local cursor = require 'feline.providers.cursor'
+local vim_mode = require 'plugins.feline.vi-mode'
 
-local vi_mode_colors = {
-  NORMAL = colors.cyan,
-  OP = colors.green,
-  VISUAL = colors.magenta,
-  SELECT = colors.orange,
-  INSERT = colors.green,
-  REPLACE = colors.red,
-  ['V-REPLACE'] = colors.red,
-  COMMAND = colors.yellow,
-  ENTER = colors.cyan,
-  BLOCK = colors.blue,
-  MORE = colors.cyan,
-  SHELL = colors.red,
-  TERM = colors.purple,
-  NONE = colors.teal
-}
 local lsp = {}
-
 function lsp.clients_are_attached()
   return (next(vim.lsp.buf_get_clients(0)) ~= nil)
 end
@@ -45,26 +28,18 @@ local function file_osinfo()
   return icon .. os
 end
 
-local function vimode_hl()
-  return {
-    name = vi_mode_utils.get_mode_highlight_name(),
-    fg = colors.bg,
-    bg = vi_mode_utils.get_mode_color(),
-  }
-end
-
 local comps = {
   vi_mode = {
     left = {
       provider = function()
-        return ' ' .. vi_mode_utils.get_vim_mode() .. ' '
+        return ' ' .. vim_mode.current_mode() .. ' '
       end,
-      hl = vimode_hl,
+      hl = vim_mode.current_hl,
       right_sep = ' ',
     },
     right = {
       provider = '▊',
-      hl = vimode_hl,
+      hl = vim_mode.current_hl,
       left_sep = ' '
     }
   },
@@ -117,14 +92,7 @@ local comps = {
       return ' ' .. cursor.position({}, {}) .. ' '
     end,
     left_sep = ' ',
-    hl = function()
-      return {
-        name = vi_mode_utils.get_mode_highlight_name(),
-        fg = colors.bg,
-        bg = vi_mode_utils.get_mode_color(),
-        style = 'bold'
-      }
-    end
+    hl = vim_mode.current_hl
   },
   scroll_bar = {
     provider = 'scroll_bar',
@@ -256,23 +224,30 @@ table.insert(components.active[2], comps.diagnos.hint)
 table.insert(components.active[2], comps.diagnos.info)
 table.insert(components.active[2], comps.lsp.name)
 table.insert(components.active[2], comps.file.os)
-table.insert(components.active[2], comps.scroll_bar)
 table.insert(components.active[2], comps.line_percentage)
 table.insert(components.active[2], comps.position)
 
 table.insert(components.inactive, {})
-table.insert(components.active[1], { hl = { bg = colors.bg } })
-
+table.insert(components.inactive[1], { hl = { bg = colors.bg } })
 
 local force_inactive = {
-  filetypes = {},
-  buftypes  = {},
-  bufnames  = {}
+  filetypes = {
+    '^NvimTree$',
+    '^packer$',
+    '^startify$',
+    '^fugitive$',
+    '^fugitiveblame$',
+    '^qf$',
+    '^help$'
+  },
+  buftypes = {
+    '^terminal$'
+  },
+  bufnames = {}
 }
 
 require 'feline'.setup {
   components = components,
   force_inactive = force_inactive,
-  vi_mode_colors = vi_mode_colors,
   theme = colors
 }
