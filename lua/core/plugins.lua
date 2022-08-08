@@ -59,12 +59,6 @@ local plugins = {
     opt = true, cmd = { "Trouble", "TroubleToggle", "TroubleRefresh" },
     config = "require('plugins.trouble')"
   },
-  { 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-    opt = true, after = 'nvim-lspconfig',
-    config = function()
-      require("lsp_lines").setup()
-    end,
-  },
   { 'simrat39/rust-tools.nvim',
     opt = true, ft = 'rust', requires = { { 'nvim-lua/plenary.nvim', opt = false } },
     config = "require('plugins.rust_tools')",
@@ -133,7 +127,7 @@ local plugins = {
   },
   { 'junegunn/vim-easy-align', opt = true, cmd = "EasyAlign" },
   { 'dstein64/nvim-scrollview', opt = true, event = 'BufReadPost' },
-  { 'moll/vim-bbye', opt = true, cmd = { 'Bdelete', 'Bwipeout', 'Bdelete!', 'Bwipeout!' } },
+  { 'famiu/bufdelete.nvim', opt = true, cmd = { 'Bdelete', 'Bwipeout', 'Bdelete!', 'Bwipeout!' } },
   { 'romainl/vim-cool', opt = true, event = { "CursorMoved", "InsertEnter" } },
   { 'terrortylor/nvim-comment', opt = false, config = "require('plugins.comment')" },
   { 'karb94/neoscroll.nvim', opt = true, event = 'BufReadPost', config = "require('plugins.neoscroll')" },

@@ -1,4 +1,3 @@
-
 local TREE_WIDTH = 40
 
 local git_icons = {
@@ -116,12 +115,10 @@ require('nvim-tree').setup {
         symlink = "",
         bookmark = "",
         folder = {
-          -- arrow_closed = "",
-          -- arrow_open = "",
-          arrow_closed = "",
-          arrow_open = "",
+          arrow_closed = "",
+          arrow_open = "",
           default = "",
-          open = "",
+          open = "",
           empty = "",
           empty_open = "",
           symlink = "",

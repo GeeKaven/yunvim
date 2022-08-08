@@ -1,3 +1,5 @@
+local colors = require("tokyonight.colors").setup()
+
 local theme = {}
 
 theme.tokyonight = function()

@@ -21,13 +21,13 @@ keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 -- save file
 keymap("n", "<C-s>", ":w<CR>", opts)
 keymap("n", "<C-q>", ":wq<CR>", opts)
+keymap("n", "<A-q>", ":Bwipeout<CR>", opts)
 keymap("n", "<A-S-q>", ":q!<CR>", opts)
 
 -- no highlight
 keymap("n", "<ESC>", "<cmd> noh <CR>", opts)
 
 -- Navigate bufferline
-keymap("n", "<S-q>", ":BufferClose<CR>", opts)
 keymap("n", "<S-l>", "<cmd> BufferLineCycleNext<CR>", opts)
 keymap("n", "<S-h>", "<cmd> BufferLineCyclePrev<CR>", opts)
 keymap("n", "<A-1>", "<cmd> BufferLineGoToBuffer 1<CR>", opts)
@@ -36,7 +36,7 @@ keymap("n", "<A-3>", "<cmd> BufferLineGoToBuffer 3<CR>", opts)
 keymap("n", "<A-4>", "<cmd> BufferLineGoToBuffer 4<CR>", opts)
 keymap("n", "<A-5>", "<cmd> BufferLineGoToBuffer 5<CR>", opts)
 keymap("n", "<A-6>", "<cmd> BufferLineGoToBuffer 6<CR>", opts)
- 
+
 -- Toggle Nvim-Tree
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
@@ -70,6 +70,7 @@ keymap("n", "K", "<cmd> Lspsaga hover_doc <CR>", opts)
 ------------------ Normal End ----------------------
 
 -------------------- Insert --------------------
+keymap("i", "<C-u>", "<C-G>u<C-U>", opts)
 keymap("i", "<C-s>", "<ESC>:w<CR>", opts)
 keymap("i", "<C-q>", "<ESC>:wq<CR>", opts)
 keymap("i", "<C-b>", "<ESC>^i", opts) -- 論 beginning of line
