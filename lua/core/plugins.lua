@@ -63,6 +63,8 @@ local plugins = {
     opt = true, ft = 'rust', requires = { { 'nvim-lua/plenary.nvim', opt = false } },
     config = "require('plugins.rust_tools')",
   },
+  { 'jose-elias-alvarez/null-ls.nvim', opt = true, after = 'nvim-lspconfig', config = "require('plugins.null_ls')"},
+  { 'MunifTanjim/prettier.nvim', opt = true, after = 'nvim-lspconfig', config = "require('plugins.prettier')"},
 
   -- Cmp
   { 'hrsh7th/nvim-cmp',

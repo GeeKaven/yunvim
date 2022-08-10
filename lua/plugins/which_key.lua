@@ -138,6 +138,8 @@ local normal_mode_mappings = {
   c = {
     name = "LSP",
     a = { 'code action' },
+    f = { 'buf code format ' },
+    p = { 'code format by prettier '}
   },
 
   h = {
@@ -192,7 +194,8 @@ local normal_mode_mappings = {
 local visual_mode_mappings = {
   c = {
     name = "LSP",
-    a = { 'range code action' }
+    a = { 'range code action' },
+    f = { 'range code format' }
   },
   s = {
     name = "SnipRun",
@@ -202,7 +205,7 @@ local visual_mode_mappings = {
 }
 
 wk.register(normal_mode_mappings, opts)
-wk.register(visual_mode_mappings, opts)
+wk.register(visual_mode_mappings, visual_opts)
 
 local function attach_markdown()
   wk.register({

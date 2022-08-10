@@ -54,6 +54,7 @@ keymap("n", "<Leader>ca", "<cmd> Lspsaga code_action <CR>", opts)
 keymap("v", "<Leader>ca", "<cmd> Lspsaga range_code_action <CR>", opts)
 
 keymap("n", "<Leader>cf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
+keymap("n", "<Leader>cp", "<cmd> Prettier <CR>", opts)
 keymap("v", "<leader>cf", "<cmd>'<.'>lua vim.lsp.buf.range_formatting()<CR>", opts)
 keymap("n", "gd", "<cmd> Lspsaga preview_definition <CR>", opts)
 keymap("n", "gD", "<cmd> lua vim.lsp.buf.definition() <CR>", opts)
