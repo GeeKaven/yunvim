@@ -132,7 +132,6 @@ local plugins = {
   { 'famiu/bufdelete.nvim', opt = true, cmd = { 'Bdelete', 'Bwipeout', 'Bdelete!', 'Bwipeout!' } },
   { 'romainl/vim-cool', opt = true, event = { "CursorMoved", "InsertEnter" } },
   { 'terrortylor/nvim-comment', opt = false, config = "require('plugins.comment')" },
-  { 'karb94/neoscroll.nvim', opt = true, event = 'BufReadPost', config = "require('plugins.neoscroll')" },
   { 'folke/which-key.nvim', config = "require('plugins.which_key')" },
   { 'nathom/filetype.nvim', opt = false },
   { 'vuki656/package-info.nvim',
