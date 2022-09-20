@@ -197,11 +197,6 @@ local visual_mode_mappings = {
     a = { 'range code action' },
     f = { 'range code format' }
   },
-  s = {
-    name = "SnipRun",
-    r = { '<cmd> SnipRun <CR>', 'SnipRun' },
-    c = { '<cmd> SnipClose <CR>', 'SnipClose' }
-  }
 }
 
 wk.register(normal_mode_mappings, opts)

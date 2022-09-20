@@ -147,7 +147,6 @@ local plugins = {
       require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
     end
   },
-  { 'michaelb/sniprun', opt = true, run = 'bash ./install.sh', cmd = { "SnipRun", "'<,'>SnipRun" } },
   { 'iamcco/markdown-preview.nvim',
     opt = true,
     run = "cd app && pnpm install",
